@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'LearningApp',
     'rest_framework',
     'rest_framework_simplejwt',
-
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 REST_FRAMEWORK = {
-
+    'NON_FIELD_ERROR_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
