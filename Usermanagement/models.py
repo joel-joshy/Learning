@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class CustomUserModel(BaseUserManager):
 
 
+
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The email must be set')
@@ -16,23 +17,24 @@ class CustomUserModel(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,password,**extra_fields):
-        extra_fields.setdefault('is_staff',True)
-        extra_fields.setdefault('is_superuser',True)
-        extra_fields.setdefault('is_active',True)
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Super must have is_staff=True')
-        if extra_fields.get('is_superuser')  is not True:
+        if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True')
-        return self.create_user(email,password,**extra_fields)
+        return self.create_user(email, password, **extra_fields)
+
 
 class User(AbstractUser):
     ROLE = (('admin', 'Admin'),
             ('manager', 'Manager'),
             ('student', 'Student'))
 
-    first_name =  models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=20,unique=True)
     email = models.EmailField(max_length=150, unique=True)
@@ -51,11 +53,12 @@ class User(AbstractUser):
         return self.email
 
     def tokens(self):
-        refresh = RefreshToken.for_user(self)
-        return {
-            'refresh':str(refresh),
-            'access':str(refresh.access_token)
-        }
+        # refresh = RefreshToken.for_user(self)
+        # return {
+        #     'refresh':str(refresh),
+        #     'access':str(refresh.access_token)
+        # }
+        return ''
 
 
 class Institution(models.Model):
