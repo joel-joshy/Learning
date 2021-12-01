@@ -38,12 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Usermanagement',
-    'LearningApp',
+
     'rest_framework',
     'rest_framework_simplejwt',
+
+    'applications.Usermanagement',
+    'applications.LearningApp',
+
     'drf_yasg',
 ]
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
