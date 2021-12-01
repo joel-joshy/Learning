@@ -19,6 +19,8 @@ class CustomAdmin(admin.ModelAdmin):
     list_filter = [
           'role', 'institution', 'is_active', 'is_verified', 'is_superuser'
     ]
+    search_fields = ['username', 'first_name', 'last_name', 'email', 'role', 'institution__institution_name',
+                     'mob_number', 'employee_id']
 
 
 class InstitutionAdmin(admin.ModelAdmin):
@@ -29,6 +31,13 @@ class InstitutionAdmin(admin.ModelAdmin):
     list_filter = ['created_by', 'is_active']
 
 
+class SubDomainAdmin(admin.ModelAdmin):
+
+    list_display = ['domain_name', 'institution']
+    fields = ['domain_name', 'institution']
+    search_fields = ['institution__institution_name', 'domain_name']
+
+
 admin.site.register(User, CustomAdmin)
 admin.site.register(Institution, InstitutionAdmin)
-admin.site.register(SubDomain)
+admin.site.register(SubDomain, SubDomainAdmin)

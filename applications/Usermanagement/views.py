@@ -7,11 +7,12 @@ from django.conf import settings
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import permissions
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from .serializers import RegistrationSeralizer, LoginSerializer, EmailVerificationSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, EmailVerificationSerializer, LogoutSerializer
 from .models import User
 from .utils import Util
 
@@ -20,7 +21,7 @@ from .utils import Util
 
 class RegistrationView(generics.GenericAPIView):
 
-    serializer_class = RegistrationSeralizer
+    serializer_class = RegistrationSerializer
 
     def post(self, request):
 
@@ -79,3 +80,17 @@ class LoginAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutView(generics.GenericAPIView):
+
+    serializer_class = LogoutSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

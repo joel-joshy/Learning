@@ -76,8 +76,8 @@ class User(AbstractUser, DateBaseModel):
         }
 
 
-class Institution(models.Model):
-    institution_name = models.CharField(max_length=200)
+class Institution( DateBaseModel,models.Model):
+    institution_name = models.CharField(verbose_name="Institution Name", max_length=200)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='institutions', null=True)
     logo = models.ImageField(upload_to='logos', null=True, blank=True)
     address = models.TextField()
@@ -86,10 +86,20 @@ class Institution(models.Model):
     def __str__(self):
         return self.institution_name
 
+    class Meta:
+        verbose_name = "Institution"
+        verbose_name_plural = "Institutions"
+        ordering = ('-created',)
 
-class SubDomain(models.Model):
-    domain_name = models.CharField(max_length=100, unique=True)
+
+class SubDomain(DateBaseModel, models.Model):
+    domain_name = models.CharField(verbose_name="Domain Name", max_length=100, unique=True)
     institution = models.OneToOneField(Institution, on_delete=models.CASCADE, related_name='sub_domain', null=True)
 
     def __str__(self):
         return self.domain_name
+
+    class Meta:
+        verbose_name = "SubDomain"
+        verbose_name_plural = "SubDomains"
+        ordering = ('-created',)
