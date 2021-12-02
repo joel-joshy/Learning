@@ -60,7 +60,7 @@ class Modules(DateBaseModel, models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='get_modules')
     module_name = models.CharField(verbose_name='Module Name', max_length=200)
     module_details = models.TextField()
-
+    duration = models.FloatField('Module Duration', validators=[MinValueValidator(0.0)], null=True, blank=True)
     files = models.FileField(upload_to='images', null=True, blank=True)
     students = models.ManyToManyField(User, related_name='get_modules', blank=True)
 
@@ -75,7 +75,7 @@ class Modules(DateBaseModel, models.Model):
 
 class Quiz(DateBaseModel, models.Model):
 
-    quiz_name = models.CharField(verbose_name="Quiz", max_length=200)
+    quiz_name = models.CharField(verbose_name="Quiz Name", max_length=200)
     quiz_details = models.TextField()
     module = models.ForeignKey(Modules, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='get_quizzes')

@@ -3,9 +3,10 @@ from django.contrib import auth
 
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from .models import User
+from .models import User, Institution
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -81,3 +82,63 @@ class LogoutSerializer(serializers.Serializer):
             self.fail('bad_token')
 
 
+class InstitutionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Institution
+        fields = ['institution_name', 'created_by', 'logo', 'address']
+
+
+class ProfileDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = User
+        fields = [
+            'id', 'username', 'first_name', 'last_name', 'email',
+            'mob_number', 'role', 'institution', 'employee_id', 'is_active', 'is_verified'
+        ]
+
+
+class CompleteRegistrationSerializer(serializers.ModelSerializer):
+
+    institution = serializers.CharField()
+
+    class Meta:
+
+        model = User
+        fields = ['mob_number', 'employee_id', 'institution']
+
+        def validate(self, data):
+            mob_number = data['mob_number']
+            employee_id = data['employee_id']
+            institution = data['institution']
+
+            if not mob_number:
+                raise serializers.ValidationError(
+                    {
+                        'status': False,
+                        'error': {'errorMessage': "Enter mobile number"},
+                        'data': {}
+
+                    }
+                )
+            if not employee_id:
+                raise serializers.ValidationError(
+                    {
+                        'status': False,
+                        'error': {'errorMessage': "Enter employee ID"},
+                        'data': {}
+
+                    }
+                )
+            if not institution:
+                raise serializers.ValidationError(
+                    {
+                        'status': False,
+                        'error': {'errorMessage': "Enter Institution"},
+                        'data': {}
+
+                    }
+                )
+            return data

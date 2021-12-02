@@ -57,7 +57,7 @@ class CourseModuleAdmin(admin.ModelAdmin):
         'module_name', 'course',
     ]
     fields = [
-        'module_name', 'course', 'module_details', 'files', 'students'
+        'module_name', 'course', 'module_details', 'files', 'duration', 'students'
     ]
 
     search_fields = [
