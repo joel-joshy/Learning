@@ -12,11 +12,25 @@ class CourseModuleInline(StackedInline):
     verbose_name_plural = "Course Modules"
 
 
-class ModuleTestQuestionsInline(StackedInline):
+class ModuleTestQuizInline(StackedInline):
     model = Quiz
     extra = 0
     verbose_name = "Module Test Question"
     verbose_name_plural = "Module Test Questions"
+
+
+class QuizQuestionsInline(StackedInline):
+    model = Questions
+    extra = 0
+    verbose_name = "Test Quiz Question"
+    verbose_name_plural = "Test Question Quizzes"
+
+
+class QuestionChoiceInline(StackedInline):
+    model = Choices
+    extra = 0
+    verbose_name = "Question Choice"
+    verbose_name_plural = "Question Choices"
 
 
 class CourseAdmin(admin.ModelAdmin):
@@ -52,13 +66,43 @@ class CourseModuleAdmin(admin.ModelAdmin):
     list_filter = [
         'course__created_by__institution'
     ]
-    inlines = [ModuleTestQuestionsInline]
+    inlines = [ModuleTestQuizInline]
+
+
+class QuizAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'quiz_name', 'created_by', 'pass_mark'
+    ]
+    fields = [
+        'quiz_name', 'quiz_details', 'module','created_by',
+        'pass_mark'
+    ]
+    inlines = [QuizQuestionsInline]
+
+
+class QuestionAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'question', 'quiz'
+    ]
+    fields = [
+        'question', 'quiz'
+    ]
+
+    search_fields = [
+        'question', 'quiz__quiz_name'
+    ]
+    list_filter = [
+        'quiz'
+    ]
+    inlines = [QuestionChoiceInline]
 
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Modules, CourseModuleAdmin)
 admin.site.register(StudentCourseStats)
 
-admin.site.register(Quiz)
-admin.site.register(Questions)
+admin.site.register(Quiz,QuizAdmin)
+admin.site.register(Questions,QuestionAdmin)
 admin.site.register(Choices)
