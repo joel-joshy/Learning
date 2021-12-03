@@ -110,6 +110,7 @@ class CompleteRegistrationView(generics.RetrieveUpdateAPIView):
 
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = CompleteRegistrationSerializer
+    queryset = User.objects.all()
 
     def get_object(self):
         return self.request.user
