@@ -82,13 +82,6 @@ class LogoutSerializer(serializers.Serializer):
             self.fail('bad_token')
 
 
-class InstitutionSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Institution
-        fields = ['institution_name', 'created_by', 'logo', 'address']
-
-
 class ProfileDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -102,7 +95,6 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
 
 class CompleteRegistrationSerializer(serializers.ModelSerializer):
 
-    institution = serializers.CharField()
 
     class Meta:
 

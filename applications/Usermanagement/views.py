@@ -102,38 +102,35 @@ class ProfileDetailView(generics.RetrieveAPIView):
     serializer_class = ProfileDetailSerializer
     queryset = User.objects.all()
 
+    def get_queryset(self):
+        return User.objects.filter(email=self.request.user.email)
+
 
 class CompleteRegistrationView(generics.RetrieveUpdateAPIView):
 
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = CompleteRegistrationSerializer
-    # queryset = User.objects.all()
 
     def get_object(self):
         return self.request.user
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(instance, data=request.data)
 
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         user = self.request.user
-        institution = user.institution
-        if not institution:
-            institution = Institution.objects.create(created_by=user, institution_name=request.data.get('institution'))
-            user.institution = institution
-
         user.is_verified = True
         user.save()
         data = {
-            'user_id':user.id,
-            'first_name':user.first_name,
-            'last_name':user.last_name,
-            'username':user.username,
-            'mob_number':user.mob_number,
-            'employee_id':user.employee_id,
-            'institution':user.institution.institution_name
+            'user_id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'username': user.username,
+            'mob_number': user.mob_number,
+            'employee_id': user.employee_id,
+            'institution': user.institution.institution_name
         }
         return Response(data={'status': True, 'error': None, 'data': data}, status=status.HTTP_200_OK)
