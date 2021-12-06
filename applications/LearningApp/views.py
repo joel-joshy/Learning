@@ -10,14 +10,11 @@ from .models import Course
 
 from applications.Usermanagement.models import User
 
-# Create your views here.
 
-
-class AddCourseView(viewsets.ModelViewSet):
+class AddCourseView(generics.RetrieveUpdateDestroyAPIView):
 
     permission_classes = [IsAuthenticated]
     serializer_class = AddCourseSerializer
-    search_fields = ['course_name', 'created_by__email']
     queryset = Course.objects.all()
 
 

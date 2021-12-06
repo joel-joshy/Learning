@@ -103,7 +103,7 @@ class ProfileDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
 
     def get_queryset(self):
-        return User.objects.filter(email=self.request.user.email)
+        return User.objects.filter(username=self.request.user.username)
 
 
 class CompleteRegistrationView(generics.RetrieveUpdateAPIView):

@@ -3,15 +3,19 @@ from django.contrib import auth
 
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from .models import User, Institution
+from .models import User
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
-    password = serializers.CharField(max_length=60, min_length=6, write_only=True)
+    """
+    serializer for user registration
+    """
+
+    password = serializers.CharField(max_length=60, min_length=6,
+                                     write_only=True)
 
     class Meta:
         model = User
@@ -28,7 +32,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
-
+    """
+    serializer to verify email
+    """
     token = serializers.CharField(max_length=555)
 
     class Meta:
@@ -37,9 +43,12 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-
+    """
+    serializer for login
+    """
     email = serializers.EmailField(max_length=255)
-    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
+    password = serializers.CharField(max_length=68, min_length=6,
+                                     write_only=True)
     username = serializers.CharField(min_length=3, read_only=True)
     tokens = serializers.CharField(read_only=True)
 
@@ -66,6 +75,9 @@ class LoginSerializer(serializers.ModelSerializer):
 
 class LogoutSerializer(serializers.Serializer):
 
+    """
+    serializer to logout
+    """
     refresh = serializers.CharField()
     default_error_messages = {
         'bad_token': 'Token is expired or invalid'
@@ -83,19 +95,23 @@ class LogoutSerializer(serializers.Serializer):
 
 
 class ProfileDetailSerializer(serializers.ModelSerializer):
-
+    """
+    serializer for viewing profile
+    """
     class Meta:
 
         model = User
         fields = [
             'id', 'username', 'first_name', 'last_name', 'email',
-            'mob_number', 'role', 'institution', 'employee_id', 'is_active', 'is_verified'
+            'mob_number', 'role', 'institution', 'employee_id',
+            'is_active', 'is_verified'
         ]
 
 
 class CompleteRegistrationSerializer(serializers.ModelSerializer):
-
-
+    """
+    serializer for registration completion
+    """
     class Meta:
 
         model = User
