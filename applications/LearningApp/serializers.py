@@ -13,4 +13,8 @@ class AddCourseSerializer(serializers.ModelSerializer):
             'course_name', 'created_by', 'course_details', 'course_duration'
         ]
 
-
+# class AddModuleSerializer(serializers.ModelSerializer):
+#
+#     """
+#     serializer to add module
+#     """
