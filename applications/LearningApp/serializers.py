@@ -13,8 +13,14 @@ class AddCourseSerializer(serializers.ModelSerializer):
             'course_name', 'created_by', 'course_details', 'course_duration'
         ]
 
-# class AddModuleSerializer(serializers.ModelSerializer):
-#
-#     """
-#     serializer to add module
-#     """
+
+class AddModuleSerializer(serializers.ModelSerializer):
+
+    """
+    serializer to add module
+    """
+    class Meta:
+        model = Modules
+        fields = [
+            'course', 'module_name', 'module_details', 'duration', 'files'
+        ]

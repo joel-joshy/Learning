@@ -82,8 +82,8 @@ class Modules(DateBaseModel, models.Model):
         return str(self.module_name) + ' - ' + str(self.course.course_name)
 
     class Meta:
-        verbose_name = "Course Module"
-        verbose_name_plural = "Course Modules"
+        verbose_name = "Module"
+        verbose_name_plural = "Modules"
         ordering = ('-created',)
 
 
