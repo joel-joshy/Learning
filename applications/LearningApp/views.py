@@ -11,7 +11,8 @@ from .models import Course
 from applications.Usermanagement.models import User
 
 
-class AddCourseView(generics.RetrieveUpdateDestroyAPIView):
+class AddCourseView(generics.RetrieveUpdateDestroyAPIView,
+                    generics.CreateAPIView):
 
     permission_classes = [IsAuthenticated]
     serializer_class = AddCourseSerializer
