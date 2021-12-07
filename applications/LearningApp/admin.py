@@ -36,7 +36,7 @@ class QuestionChoiceInline(StackedInline):
 class CourseAdmin(admin.ModelAdmin):
 
     list_display = [
-        'course_name', 'created_by', 'course_duration'
+         'course_name', 'created_by', 'id', 'course_duration'
     ]
     fields = [
         'course_name', 'created_by', 'course_details',
@@ -54,7 +54,7 @@ class CourseAdmin(admin.ModelAdmin):
 class CourseModuleAdmin(admin.ModelAdmin):
 
     list_display = [
-        'module_name', 'course',
+        'module_name', 'id', 'course',
     ]
     fields = [
         'module_name', 'course', 'module_details', 'files', 'duration', 'students'
@@ -72,7 +72,7 @@ class CourseModuleAdmin(admin.ModelAdmin):
 class QuizAdmin(admin.ModelAdmin):
 
     list_display = [
-        'quiz_name', 'created_by', 'pass_mark'
+        'quiz_name', 'id', 'created_by', 'pass_mark'
     ]
     fields = [
         'quiz_name', 'quiz_details', 'module','created_by',
@@ -84,7 +84,7 @@ class QuizAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
 
     list_display = [
-        'question', 'quiz'
+        'question', 'id', 'quiz'
     ]
     fields = [
         'question', 'quiz'

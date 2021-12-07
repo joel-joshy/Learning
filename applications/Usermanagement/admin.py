@@ -8,7 +8,8 @@ from .models import User, Institution, SubDomain
 class CustomAdmin(admin.ModelAdmin):
 
     list_display = [
-        'email', 'first_name', 'last_name', 'username', 'role', 'institution', 'employee_id', 'is_verified', 'created'
+        'email', 'id','first_name', 'last_name', 'username', 'role',
+        'institution', 'employee_id', 'is_verified', 'created'
     ]
 
     fields = [
@@ -25,7 +26,7 @@ class CustomAdmin(admin.ModelAdmin):
 
 class InstitutionAdmin(admin.ModelAdmin):
 
-    list_display = ['institution_name', 'created_by', 'is_active']
+    list_display = ['institution_name', 'id', 'created_by', 'is_active']
     fields = ['institution_name', 'created_by', 'logo', 'address', 'is_active']
     search_fields = ['institution_name', 'created_by__email']
     list_filter = ['created_by', 'is_active']
@@ -33,7 +34,7 @@ class InstitutionAdmin(admin.ModelAdmin):
 
 class SubDomainAdmin(admin.ModelAdmin):
 
-    list_display = ['domain_name', 'institution']
+    list_display = ['domain_name', 'id', 'institution']
     fields = ['domain_name', 'institution']
     search_fields = ['institution__institution_name', 'domain_name']
 
