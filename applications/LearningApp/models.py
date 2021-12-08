@@ -28,7 +28,7 @@ class Course(DateBaseModel, models.Model):
         ordering = ('-created',)
 
 
-class StudentCourseStats(DateBaseModel, models.Model):
+class StudentCourseStats(DateBaseModel):
     COMPLETED = 'completed'
     IN_PROGRESS = 'in_progress'
     NEW = 'new'
@@ -65,7 +65,7 @@ class StudentCourseStats(DateBaseModel, models.Model):
         return '%s - %s' % (self.user, self.course)
 
 
-class Modules(DateBaseModel, models.Model):
+class Modules(DateBaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,
                                related_name='get_modules')
     module_name = models.CharField(verbose_name=_('Module Name'),
@@ -87,7 +87,7 @@ class Modules(DateBaseModel, models.Model):
         ordering = ('-created',)
 
 
-class Quiz(DateBaseModel, models.Model):
+class Quiz(DateBaseModel):
     quiz_name = models.CharField(verbose_name=_("Quiz Name"),
                                  max_length=200)
     quiz_details = models.TextField()
@@ -109,7 +109,7 @@ class Quiz(DateBaseModel, models.Model):
         return self.quiz_name
 
 
-class Questions(DateBaseModel, models.Model):
+class Questions(DateBaseModel):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.CharField(verbose_name=_("Question"), max_length=250)
 
@@ -122,7 +122,7 @@ class Questions(DateBaseModel, models.Model):
         return self.question
 
 
-class Choices(DateBaseModel, models.Model):
+class Choices(DateBaseModel):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE,
                                  related_name='get_choices')
     choice = models.CharField(verbose_name=_("Choice"), max_length=200)

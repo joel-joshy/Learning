@@ -100,7 +100,6 @@ class ProfileDetailView(generics.RetrieveAPIView):
 
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileDetailSerializer
-    queryset = User.objects.all()
 
     def get_queryset(self):
         return User.objects.filter(username=self.request.user.username)

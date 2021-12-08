@@ -78,6 +78,9 @@ class QuizAdmin(admin.ModelAdmin):
         'quiz_name', 'quiz_details', 'module','created_by',
         'pass_mark'
     ]
+    list_filter = [
+        'created_by'
+    ]
     inlines = [QuizQuestionsInline]
 
 
