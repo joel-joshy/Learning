@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Course, Modules, Quiz
+from .models import Course, Modules, Quiz, Questions
 
 
 class AddCourseSerializer(serializers.ModelSerializer):
@@ -10,7 +10,8 @@ class AddCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = [
-            'course_name', 'course_details', 'course_duration'
+            'course_name', 'course_details', 'course_duration',
+
         ]
 
 
@@ -32,6 +33,15 @@ class AddQuizSerializer(serializers.ModelSerializer):
 
         model = Quiz
         fields = [
-            'quiz_name', 'quiz_details', 'module', 'created_by',
+            'quiz_name', 'quiz_details', 'module',
             'pass_mark'
+        ]
+
+
+class AddQuestionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Questions
+        fields = [
+            'quiz', 'question'
         ]
