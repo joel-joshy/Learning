@@ -5,7 +5,7 @@ from rest_framework import status
 
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
-    AddQuizSerializer, AddQuestionSerializer
+    AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer
 from .models import Course, Modules, Quiz, Questions
 from .permissions import IsOwner
 
@@ -51,10 +51,14 @@ class AddQuestionView(generics.ListCreateAPIView):
     queryset = Questions.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
 
-    def get_queryset(self):
-        return self.queryset.filter()
-
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = AddQuestionSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ListQuestionView(generics.ListAPIView):
+
+    serializer_class = ViewQuestionSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+    queryset = Questions.objects.all()

@@ -64,3 +64,12 @@ class AddQuestionSerializer(serializers.ModelSerializer):
             answer=True
         ).first()
         return right_answer.choice if right_answer else None
+
+
+class ViewQuestionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Questions
+        fields = [
+            'quiz', 'question'
+        ]
