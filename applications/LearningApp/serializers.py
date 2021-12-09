@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Course, Modules, Quiz, Questions
+from .models import Course, Modules, Quiz, Questions, Choices
 
 
 class AddCourseSerializer(serializers.ModelSerializer):
@@ -38,10 +38,29 @@ class AddQuizSerializer(serializers.ModelSerializer):
         ]
 
 
+class AddQuestionChoiceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Choices
+        fields = [
+            'id', 'choice', 'answer'
+        ]
+
+
 class AddQuestionSerializer(serializers.ModelSerializer):
+    choices = AddQuestionChoiceSerializer(
+        many=True, read_only=True, source='get_choices'
+    )
+    right_answer = serializers.SerializerMethodField()
 
     class Meta:
         model = Questions
         fields = [
-            'quiz', 'question'
+            'quiz', 'question', 'choices', 'right_answer'
         ]
+
+    def get_right_answer(self, obj):
+        right_answer = obj.get_choices.filter(
+            answer=True
+        ).first()
+        return right_answer.choice if right_answer else None

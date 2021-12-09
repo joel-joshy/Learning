@@ -5,8 +5,8 @@ from rest_framework import status
 
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
-    AddQuizSerializer
-from .models import Course, Modules, Quiz
+    AddQuizSerializer, AddQuestionSerializer
+from .models import Course, Modules, Quiz, Questions
 from .permissions import IsOwner
 
 from applications.Usermanagement.models import User
@@ -22,8 +22,10 @@ class AddCourseView(generics.RetrieveUpdateDestroyAPIView,
         return serializer.save(created_by=self.request.user)
 
     def get_queryset(self):
-
-        return self.queryset.filter(created_by=self.request.user)
+        try:
+            return self.queryset.filter(created_by=self.request.user)
+        except:
+            pass
 
 
 class AddModuleView(generics.CreateAPIView,
@@ -35,10 +37,24 @@ class AddModuleView(generics.CreateAPIView,
 
 class AddQuizView(generics.CreateAPIView,
                   generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
     serializer_class = AddQuizSerializer
     queryset = Quiz.objects.all()
 
     def perform_update(self, serializer):
         return serializer.save(created_by=self.request.user)
 
+
+class AddQuestionView(generics.ListCreateAPIView):
+
+    serializer_class = AddQuestionSerializer
+    queryset = Questions.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        return self.queryset.filter()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = AddQuestionSerializer(queryset, many=True)
+        return Response(serializer.data)
