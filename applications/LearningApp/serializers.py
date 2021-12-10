@@ -43,7 +43,7 @@ class AddQuestionChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choices
         fields = [
-            'id', 'choice', 'answer'
+            'id', 'question', 'choice', 'answer'
         ]
 
 
@@ -73,3 +73,7 @@ class ViewQuestionSerializer(serializers.ModelSerializer):
         fields = [
             'quiz', 'question'
         ]
+
+
+
+

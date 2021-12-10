@@ -5,8 +5,10 @@ from rest_framework import status
 
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
-    AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer
-from .models import Course, Modules, Quiz, Questions
+    AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer, \
+    AddQuestionChoiceSerializer
+
+from .models import Course, Modules, Quiz, Questions, Choices
 from .permissions import IsOwner
 
 from applications.Usermanagement.models import User
@@ -62,3 +64,9 @@ class ListQuestionView(generics.ListAPIView):
     serializer_class = ViewQuestionSerializer
     permission_classes = [IsAuthenticated, IsOwner]
     queryset = Questions.objects.all()
+
+
+class AddChoiceView(generics.CreateAPIView,
+                    generics.UpdateAPIView):
+    serializer_class = AddQuestionChoiceSerializer
+    queryset = Choices.objects.all()

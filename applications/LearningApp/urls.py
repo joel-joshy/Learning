@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import AddCourseView, AddModuleView, AddQuizView, \
-    AddQuestionView, ListQuestionView
+    AddQuestionView, ListQuestionView, AddChoiceView
 
 
 urlpatterns = [
@@ -12,7 +12,8 @@ urlpatterns = [
     path('course/module/quiz/question', AddQuestionView.as_view(),
          name='questions'),
     path('course/module/quiz/questions', ListQuestionView.as_view(),
-         name='list-questions')
-
+         name='list-questions'),
+    path('quiz/question/choice', AddChoiceView.as_view(),
+         name='add-choice')
 
 ]
