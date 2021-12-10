@@ -1,7 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from .views import AddCourseView, AddModuleView, AddQuizView, \
-    AddQuestionView, ListQuestionView, AddChoiceView
+    AddQuestionView, ListQuestionView, AddChoiceView, QuestionView, \
+    ChoiceView, QuizView
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'questions',
+                QuestionView)
+router.register(r'choices', ChoiceView)
+router.register(r'quiz', QuizView)
 
 urlpatterns = [
     path('course/<int:pk>', AddCourseView.as_view(), name='add-course'),
@@ -14,6 +21,7 @@ urlpatterns = [
     path('course/module/quiz/questions', ListQuestionView.as_view(),
          name='list-questions'),
     path('quiz/question/choice', AddChoiceView.as_view(),
-         name='add-choice')
+         name='add-choice'),
+    path('', include(router.urls))
 
 ]

@@ -2,11 +2,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import viewsets
 
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
     AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer, \
-    AddQuestionChoiceSerializer
+    AddQuestionChoiceSerializer, QuestionSerializer, ChoiceSerializer, QuizSerializer
 
 from .models import Course, Modules, Quiz, Questions, Choices
 from .permissions import IsOwner
@@ -70,3 +71,26 @@ class AddChoiceView(generics.CreateAPIView,
                     generics.UpdateAPIView):
     serializer_class = AddQuestionChoiceSerializer
     queryset = Choices.objects.all()
+
+
+class QuestionView(viewsets.ModelViewSet):
+
+    serializer_class = QuestionSerializer
+    queryset = Questions.objects.all()
+
+
+class ChoiceView(viewsets.ModelViewSet):
+
+    serializer_class = ChoiceSerializer
+    queryset = Choices.objects.all()
+
+
+class QuizView(viewsets.ModelViewSet):
+
+    serializer_class = QuizSerializer
+    queryset = Quiz.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def perform_create(self, serializer):
+        return serializer.save(created_by=self.request.user)
+

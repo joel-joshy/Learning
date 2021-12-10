@@ -110,7 +110,8 @@ class Quiz(DateBaseModel):
 
 
 class Questions(DateBaseModel):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,
+                             related_name='get_questions')
     question = models.CharField(verbose_name=_("Question"), max_length=250)
 
     class Meta:
@@ -134,5 +135,5 @@ class Choices(DateBaseModel):
         ordering = ('-created',)
 
     def __str__(self):
-        return self.question.question
+        return self.choice
 
