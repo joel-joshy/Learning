@@ -117,4 +117,15 @@ class QuizSerializer(serializers.ModelSerializer):
         ]
 
 
+class ModuleSerializer(serializers.ModelSerializer):
+    quiz = QuizSerializer(many=True, source='get_quizzes')
+
+    class Meta:
+        model = Modules
+        fields = [
+            'course', 'module_name', 'module_details', 'duration', 'files',
+            'quiz'
+        ]
+
+
 

@@ -7,7 +7,8 @@ from rest_framework import viewsets
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
     AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer, \
-    AddQuestionChoiceSerializer, QuestionSerializer, ChoiceSerializer, QuizSerializer
+    AddQuestionChoiceSerializer, QuestionSerializer, ChoiceSerializer, \
+    QuizSerializer, ModuleSerializer
 
 from .models import Course, Modules, Quiz, Questions, Choices
 from .permissions import IsOwner
@@ -94,3 +95,12 @@ class QuizView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         return serializer.save(created_by=self.request.user)
 
+
+class ModuleView(viewsets.ModelViewSet):
+
+    serializer_class = ModuleSerializer
+    queryset = Modules.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        return serializer.save(created_by=self.request.user)

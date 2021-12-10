@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import AddCourseView, AddModuleView, AddQuizView, \
     AddQuestionView, ListQuestionView, AddChoiceView, QuestionView, \
-    ChoiceView, QuizView
+    ChoiceView, QuizView, ModuleView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -9,6 +9,7 @@ router.register(r'questions',
                 QuestionView)
 router.register(r'choices', ChoiceView)
 router.register(r'quiz', QuizView)
+router.register(r'Module', ModuleView)
 
 urlpatterns = [
     path('course/<int:pk>', AddCourseView.as_view(), name='add-course'),
