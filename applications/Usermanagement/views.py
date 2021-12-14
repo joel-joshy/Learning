@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import permissions
 
+
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -53,7 +54,7 @@ class RegistrationView(generics.GenericAPIView):
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer
     token_param_config = openapi.Parameter('token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
-
+    
     @swagger_auto_schema(manual_parameters=[token_param_config])
     def get(self, request):
 
