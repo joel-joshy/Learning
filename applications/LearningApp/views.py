@@ -1,15 +1,13 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework import status
+
 from rest_framework import viewsets
 
 
 from .serializers import AddCourseSerializer, AddModuleSerializer, \
-    AddQuizSerializer, AddQuestionSerializer, ViewQuestionSerializer, \
-    AddQuestionChoiceSerializer, QuestionSerializer, ChoiceSerializer, \
+    ViewQuestionSerializer, QuestionSerializer, ChoiceSerializer, \
     QuizSerializer, ModuleSerializer
-
+# AddQuizSerializer, AddQuestionSerializer,AddQuestionChoiceSerializer
 from .models import Course, Modules, Quiz, Questions, Choices
 from .permissions import IsOwner
 
@@ -39,26 +37,26 @@ class AddModuleView(generics.CreateAPIView,
     queryset = Modules.objects.all()
 
 
-class AddQuizView(generics.CreateAPIView,
-                  generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsOwner]
-    serializer_class = AddQuizSerializer
-    queryset = Quiz.objects.all()
+# class AddQuizView(generics.CreateAPIView,
+#                   generics.RetrieveUpdateDestroyAPIView):
+#     permission_classes = [IsAuthenticated, IsOwner]
+#     serializer_class = AddQuizSerializer
+#     queryset = Quiz.objects.all()
+#
+#     def perform_update(self, serializer):
+#         return serializer.save(created_by=self.request.user)
 
-    def perform_update(self, serializer):
-        return serializer.save(created_by=self.request.user)
 
-
-class AddQuestionView(generics.ListCreateAPIView):
-
-    serializer_class = AddQuestionSerializer
-    queryset = Questions.objects.all()
-    permission_classes = [IsAuthenticated, IsOwner]
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = AddQuestionSerializer(queryset, many=True)
-        return Response(serializer.data)
+# class AddQuestionView(generics.ListCreateAPIView):
+#
+#     serializer_class = AddQuestionSerializer
+#     queryset = Questions.objects.all()
+#     permission_classes = [IsAuthenticated, IsOwner]
+#
+#     def list(self, request, *args, **kwargs):
+#         queryset = self.get_queryset()
+#         serializer = AddQuestionSerializer(queryset, many=True)
+#         return Response(serializer.data)
 
 
 class ListQuestionView(generics.ListAPIView):
@@ -68,10 +66,10 @@ class ListQuestionView(generics.ListAPIView):
     queryset = Questions.objects.all()
 
 
-class AddChoiceView(generics.CreateAPIView,
-                    generics.UpdateAPIView):
-    serializer_class = AddQuestionChoiceSerializer
-    queryset = Choices.objects.all()
+# class AddChoiceView(generics.CreateAPIView,
+#                     generics.UpdateAPIView):
+#     serializer_class = AddQuestionChoiceSerializer
+#     queryset = Choices.objects.all()
 
 
 class QuestionView(viewsets.ModelViewSet):
